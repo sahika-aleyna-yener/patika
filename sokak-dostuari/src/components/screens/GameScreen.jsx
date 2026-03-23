@@ -1,21 +1,28 @@
 import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
+import { useGameLoop } from '../../hooks/useGameLoop'
 import TopBar from '../ui/TopBar'
 import MissionBar from '../ui/MissionBar'
 import BadgeRow from '../ui/BadgeRow'
 import NeighborhoodMap from '../map/NeighborhoodMap'
 import AnimalPanel from '../animal/AnimalPanel'
 import EmpathyModal from '../ui/EmpathyModal'
+import FloatingScore from '../ui/FloatingScore'
+import SeasonBanner from '../ui/SeasonBanner'
 import AdoptionScreen from './AdoptionScreen'
 import PremiumScreen from './PremiumScreen'
+import ProfileScreen from './ProfileScreen'
 
 export default function GameScreen() {
+  useGameLoop()
   const [adoptAnimal, setAdoptAnimal] = useState(null)
   const [showPremium, setShowPremium] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
 
   return (
     <div className="flex flex-col h-screen bg-bg overflow-hidden">
-      <TopBar onPremiumClick={() => setShowPremium(true)} />
+      <TopBar onPremiumClick={() => setShowPremium(true)} onProfileClick={() => setShowProfile(true)} />
+      <SeasonBanner />
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
@@ -38,6 +45,7 @@ export default function GameScreen() {
 
       {/* Modals */}
       <EmpathyModal />
+      <FloatingScore />
 
       <AnimatePresence>
         {adoptAnimal && (
@@ -51,6 +59,12 @@ export default function GameScreen() {
       <AnimatePresence>
         {showPremium && (
           <PremiumScreen onClose={() => setShowPremium(false)} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showProfile && (
+          <ProfileScreen onClose={() => setShowProfile(false)} />
         )}
       </AnimatePresence>
     </div>

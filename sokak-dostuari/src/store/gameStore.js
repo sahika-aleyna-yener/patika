@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { INITIAL_ANIMALS } from '../data/animals'
-import { DAILY_MISSIONS } from '../data/missions'
+import { DAILY_MISSIONS, SEASONAL_EVENTS } from '../data/missions'
 import { BADGES } from '../data/badges'
 
 const today = () => new Date().toDateString()
@@ -174,10 +174,11 @@ export const useGameStore = create(
         })
 
         // Check for new badges
+        const currentScore = get().score + scoreGain
         const allBadgeIds = new Set(earnedBadges)
         const newBadges = [...earnedBadges]
         for (const badge of BADGES) {
-          if (!allBadgeIds.has(badge.id) && badge.condition(newStats)) {
+          if (!allBadgeIds.has(badge.id) && badge.condition(newStats, currentScore)) {
             newBadges.push(badge.id)
           }
         }
@@ -218,11 +219,12 @@ export const useGameStore = create(
         )
 
         const newStats = { ...stats, totalAdoptions: stats.totalAdoptions + 1 }
+        const adoptionScore = get().score + 100
 
         const allBadgeIds = new Set(earnedBadges)
         const newBadges = [...earnedBadges]
         for (const badge of BADGES) {
-          if (!allBadgeIds.has(badge.id) && badge.condition(newStats)) {
+          if (!allBadgeIds.has(badge.id) && badge.condition(newStats, adoptionScore)) {
             newBadges.push(badge.id)
           }
         }
@@ -267,7 +269,7 @@ export const useGameStore = create(
         const allBadgeIds = new Set(earnedBadges)
         const newBadges = [...earnedBadges]
         for (const badge of BADGES) {
-          if (!allBadgeIds.has(badge.id) && badge.condition(newStats)) {
+          if (!allBadgeIds.has(badge.id) && badge.condition(newStats, get().score)) {
             newBadges.push(badge.id)
           }
         }
@@ -281,10 +283,11 @@ export const useGameStore = create(
       watchAd: () => {
         const { stats, earnedBadges } = get()
         const newStats = { ...stats, adsWatched: stats.adsWatched + 1 }
+        const adScore = get().score + 20
         const allBadgeIds = new Set(earnedBadges)
         const newBadges = [...earnedBadges]
         for (const badge of BADGES) {
-          if (!allBadgeIds.has(badge.id) && badge.condition(newStats)) {
+          if (!allBadgeIds.has(badge.id) && badge.condition(newStats, adScore)) {
             newBadges.push(badge.id)
           }
         }
@@ -298,9 +301,33 @@ export const useGameStore = create(
       clearEmpathyWarning: () => set({ empathyWarning: null }),
 
       setActiveEvent: (event) => set({ activeEvent: event }),
+
+      detectSeasonalEvent: () => {
+        const now = new Date()
+        const month = now.getMonth() + 1
+        const day = now.getDate()
+        const event = SEASONAL_EVENTS.find((e) => {
+          if (!e.months.includes(month)) return false
+          if (e.day && e.day !== day) return false
+          return true
+        })
+        set({ activeEvent: event || null })
+      },
+
+      decayHunger: () => {
+        const { animals } = get()
+        const updated = animals.map((a) => {
+          if (a.isAdopted) return a
+          const newHunger = Math.max(0, a.hunger - 5)
+          let need = a.need
+          if (newHunger < 30 && need !== 'medicine') need = 'food'
+          return { ...a, hunger: newHunger, need }
+        })
+        set({ animals: updated })
+      },
     }),
     {
-      name: 'sokak-dostuari-save',
+      name: 'patika-save',
       partialize: (state) => ({
         animals: state.animals,
         score: state.score,

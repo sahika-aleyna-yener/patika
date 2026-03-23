@@ -1,14 +1,16 @@
 import { useGameStore } from '../../store/gameStore'
+import { useUserStore } from '../../store/userStore'
 
-export default function TopBar({ onPremiumClick }) {
+export default function TopBar({ onPremiumClick, onProfileClick }) {
   const { score, streak, isPremium } = useGameStore()
+  const { avatar } = useUserStore()
 
   return (
     <div className="bg-primary text-white px-4 py-3 flex items-center justify-between shadow-md">
       <div className="flex items-center gap-2">
         <span className="text-2xl">🐾</span>
         <div>
-          <div className="font-black text-lg leading-tight">Sokak Dostları</div>
+          <div className="font-black text-lg leading-tight">Patika</div>
           <div className="text-xs opacity-80">Mahalleni koru, bağ kur!</div>
         </div>
       </div>
@@ -39,6 +41,14 @@ export default function TopBar({ onPremiumClick }) {
             ✨ Pro'ya Geç
           </button>
         )}
+
+        {/* Profile */}
+        <button
+          onClick={onProfileClick}
+          className="w-8 h-8 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center text-lg transition-colors"
+        >
+          {avatar}
+        </button>
       </div>
     </div>
   )

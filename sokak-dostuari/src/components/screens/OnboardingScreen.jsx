@@ -4,7 +4,7 @@ import { useGameStore } from '../../store/gameStore'
 const steps = [
   {
     emoji: '🐾',
-    title: 'Sokak Dostları',
+    title: 'Patika',
     subtitle: 'Mahallenin sokak hayvanlarına sahip çık!',
     desc: 'Her gün gelip hayvanlarını besle, iyileştir ve onlarla güçlü bir bağ kur.',
   },
@@ -52,8 +52,8 @@ export default function OnboardingScreen() {
           >
             🐾
           </motion.div>
-          <h1 className="text-3xl font-black text-text">Sokak Dostları</h1>
-          <p className="text-text-light text-sm mt-1">Mahallenin bekçisi ol!</p>
+          <h1 className="text-3xl font-black text-text">Patika</h1>
+          <p className="text-text-light text-sm mt-1">Sokak hayvanlarının sesi ol!</p>
         </div>
 
         {/* Feature cards */}

@@ -5,10 +5,11 @@ import OnboardingScreen from './components/screens/OnboardingScreen'
 import GameScreen from './components/screens/GameScreen'
 
 function App() {
-  const { currentScreen, updateStreak } = useGameStore()
+  const { currentScreen, updateStreak, detectSeasonalEvent } = useGameStore()
 
   useEffect(() => {
     updateStreak()
+    detectSeasonalEvent()
   }, [])
 
   return (

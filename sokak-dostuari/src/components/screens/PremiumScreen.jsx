@@ -65,7 +65,7 @@ export default function PremiumScreen({ onClose }) {
           <div className="w-10 h-1 bg-white/30 rounded-full mx-auto mb-4" />
           <div className="text-center">
             <div className="text-4xl mb-2">👑</div>
-            <h2 className="text-2xl font-black mb-1">Sokak Dostu Pro</h2>
+            <h2 className="text-2xl font-black mb-1">Patika Pro</h2>
             <p className="text-purple-200 text-sm">Hem daha iyi oyna, hem gerçekten yardım et!</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function PremiumScreen({ onClose }) {
                 className="w-full bg-purple-600 text-white font-black py-4 rounded-2xl text-base shadow-lg mb-2"
                 whileTap={{ scale: 0.97 }}
               >
-                👑 Pro'ya Geç — ₺49/ay
+                👑 Patika Pro'ya Geç — ₺49/ay
               </motion.button>
               <p className="text-center text-xs text-text-light">
                 Ödemenin %20'si sokak hayvanı vakıflarına gidiyor 💝

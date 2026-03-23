@@ -67,7 +67,7 @@ export const BADGES = [
     title: 'Bin Puan',
     description: '1000 puana ulaştın',
     emoji: '⭐',
-    condition: (stats) => stats.score >= 1000,
+    condition: (stats, score) => (score || 0) >= 1000,
   },
   {
     id: 'donor',

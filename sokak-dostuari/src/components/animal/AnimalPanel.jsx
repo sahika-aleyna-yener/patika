@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import toast from 'react-hot-toast'
 import { useGameStore } from '../../store/gameStore'
 import StatBar from '../ui/StatBar'
 import { GENDER_LABELS, SPECIES_LABELS } from '../../data/animals'
@@ -48,10 +49,21 @@ export default function AnimalPanel({ onAdoptClick }) {
 
   const bondInfo = getBondLabel(animal.bond)
 
+  const ACTION_TOASTS = {
+    feed: (score) => toast(`🍖 ${animal.name} beslendi! +${score} puan`, { icon: '🍖' }),
+    approach: (score) => toast(`🤝 ${animal.name} seni hissetti! +${score} puan`, { icon: '🤝' }),
+    medicine: (score) => toast(`💊 ${animal.name} ilaçlandı! +${score} puan`, { icon: '💊' }),
+    sterilize: (score) => toast(`🏥 Kısırlaştırıldı! +${score} puan`, { icon: '🏥' }),
+    vaccinate: (score) => toast(`💉 Aşılandı! +${score} puan`, { icon: '💉' }),
+  }
+
   const handleAction = (actionId) => {
     if (actionId === 'sterilize' && animal.isSterilized) return
     if (actionId === 'vaccinate' && animal.isVaccinated) return
-    doAction(animal.id, actionId)
+    const result = doAction(animal.id, actionId)
+    if (result && !result.empathyWarning) {
+      ACTION_TOASTS[actionId]?.(result.scoreGain)
+    }
     setLastAction(actionId)
     setTimeout(() => setLastAction(null), 600)
   }
