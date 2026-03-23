@@ -32,6 +32,12 @@ Sokak Dostları, sokak hayvanlarını konu alan empati tabanlı bir mobil-öncel
 - **Günlük görevler** — gün sonunda sıfırlanan 4 görev
 - **12 rozet** — "İlk Mama"dan "Aylık Kahraman"a
 - **Puan sistemi** — her aksiyon puan kazandırır, sezonsal olaylarda çarpan artar
+- **Sezon banner'ı** — aktif etkinliği ve çarpan etkisini üstte canlı gösterir
+- **Floating score** — yapılan aksiyonların puan etkisini anlık ve akıcı gösterir
+
+### Profil ve İlerleme
+- **Profil ekranı** — oyuncu adı, seviye, toplam puan ve genel ilerleme özeti
+- **Kalıcı kullanıcı verisi** — kullanıcı tercihleri ve metrikler localStorage üzerinden saklanır
 
 ### Empati & Eğitim
 - Yanlış aksiyon yapıldığında (örn. hasta hayvana yaklaşmak) → yargılamadan öğreten modal
@@ -91,19 +97,26 @@ sokak-dostuari/
 │   │   │   ├── OnboardingScreen.jsx   # Karşılama ekranı
 │   │   │   ├── GameScreen.jsx         # Ana oyun ekranı
 │   │   │   ├── AdoptionScreen.jsx     # Sahiplendirme akışı
-│   │   │   └── PremiumScreen.jsx      # Pro plan + reklam + bağış
+│   │   │   ├── PremiumScreen.jsx      # Pro plan + reklam + bağış
+│   │   │   └── ProfileScreen.jsx      # Profil ve oyuncu ilerleme ekranı
 │   │   └── ui/
 │   │       ├── TopBar.jsx             # Üst bar: logo, puan, streak
 │   │       ├── MissionBar.jsx         # Günlük görevler
 │   │       ├── BadgeRow.jsx           # Kazanılan rozetler
 │   │       ├── StatBar.jsx            # İlerleme çubuğu bileşeni
-│   │       └── EmpathyModal.jsx       # Yanlış aksiyon uyarısı
+│   │       ├── EmpathyModal.jsx       # Yanlış aksiyon uyarısı
+│   │       ├── FloatingScore.jsx      # Aksiyon puanlarının kayan geri bildirimi
+│   │       └── SeasonBanner.jsx       # Aktif sezon/etkinlik göstergesi
 │   ├── data/
 │   │   ├── animals.js                 # 4 hayvan şablonu + sabitler
 │   │   ├── badges.js                  # 12 rozet tanımı
-│   │   └── missions.js                # Günlük görevler + sezonsal olaylar
+│   │   ├── missions.js                # Günlük görevler + sezonsal olaylar
+│   │   └── stories.js                 # Hayvan hikaye ve reaksiyon metinleri
+│   ├── hooks/
+│   │   └── useGameLoop.js             # Oyun döngüsü ve zaman bazlı güncellemeler
 │   ├── store/
-│   │   └── gameStore.js               # Zustand store (tüm oyun state)
+│   │   ├── gameStore.js               # Zustand store (oyun state)
+│   │   └── userStore.js               # Zustand store (kullanıcı/profil state)
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css
